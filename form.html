@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: pink;
+        }
+        .container {
+            background-color: pink;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            max-width: 600px;
+            padding: 20px;
+        }
+        h2 {
+            font-family: Algerian;
+            text-align: center;
+            color: #461114;
+            margin-top: 0;
+            background-color: pink;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #460808;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #5f0909;
+        }
+        .error-message {
+            color: #d8000c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registration Form</h2>
+        <form action="suc.html" id="registrationForm" method="post" onsubmit="return validateForm()">
+            <div class="form-section">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" pattern="[a-zA-Z\s]+" title="Name should contain alphabet and space only" required>
+                <div class="error-message" id="name-error"></div>
+            </div>
+            <div class="form-section">
+                <label for="Gender">Gender:</label>
+                <input type="radio" id="male" name="gender" value="male" required>
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female" required>
+                <label for="female">Female</label>
+                <div class="error-message" id="gender-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Language Known:</label><br>
+                <input type="checkbox" id="tamil" name="language" value="tamil">
+                <label for="tamil">Tamil</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="english" name="language" value="english">
+                <label for="english">English</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="hindi" name="language" value="hindi">
+                <label for="hindi">Hindi</label>
+            </div>
+            <div class="form-group">
+                <label for="district">District:</label>
+                <select id="district" name="district" required>
+                    <option value="Salem">Salem</option>
+                    <option value="Namakkal">Namakkal</option>
+                    <option value="Erode">Erode</option>
+                    <option value="Karur">Karur</option>
+                </select>
+            </div>
+            <div class="form-section">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+                <div class="error-message" id="address-error"></div>
+            </div>
+            <div class="form-section">
+                <label for="email">Mail id:</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="email-error"></div>
+            </div>
+            
+            <div class="form-section">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Mobile number should be 10 digits" required>
+                <div class="error-message" id="phone-error"></div>
+            </div>
+            <div class="form-section">
+                <label for="username">User Name:</label>
+                <input type="text" id="username" name="username" pattern="[a-zA-Z][a-zA-Z0-9_]*" title="Alphanumeric characters and underscore only, must start with alphabet" required>
+            </div>
+           
+            <div class="form-section">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            <div class="form-section">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+                <div class="error-message" id="confirm-password-error"></div>
+            </div>
+            <div class="form-section">
+                <input type="checkbox" id="information_true" required>
+                <label for="information_true">I affirm that the above information is true.</label>
+                <div class="error-message" id="information-error"></div>
+            </div>
+            <div class="form-section">
+                <input type="submit" value="REGISTER">
+            </div>
+        </form>
+    </div>
+<script>
+function validateForm() {
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirm_password").value;
+    var phoneNumber = document.getElementById("phone").value.trim();
+    var genderSelected = document.querySelector('input[name="gender"]:checked');
+    var informationTrueCheckbox = document.getElementById("information_true");
+
+    var namePattern = /^[a-zA-Z\s]+$/;
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+    var phonePattern = /^\d{10}$/;
+    document.querySelectorAll('.error-message').forEach(function(el) {
+        el.innerHTML = '';
+    });
+   if (!namePattern.test(name)) {
+        document.getElementById("name-error").innerHTML = "Name should only contain letters and spaces.";
+        return false;
+    }
+    if (!emailPattern.test(email)) {
+        document.getElementById("email-error").innerHTML = "Please enter a valid email address.";
+        return false;
+    }    
+    if (!passwordPattern.test(password)) {
+        document.getElementById("password-error").innerHTML = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 of the following special characters: @$!%*?&";
+        return false;
+    }
+   if (password !== confirmPassword) {
+        document.getElementById("confirm-password-error").innerHTML = "Passwords do not match.";
+        return false;
+    }
+    if (!genderSelected) {
+        document.getElementById("gender-error").innerHTML = "Please select a gender.";
+        return false;
+    }
+     if (!phonePattern.test(phoneNumber)) {
+        document.getElementById("phone-error").innerHTML = "Please enter a valid 10-digit phone number.";
+        return false;
+    }
+    if (!informationTrueCheckbox.checked) {
+        document.getElementById("information-error").innerHTML = "Please affirm that the above information is true.";
+        return false;
+    }
+    return true;
+}
+
+// Refresh page content on browser refresh
+window.onload = function() {
+    if (window.performance) {
+        if (performance.navigation.type === 1) {
+            window.location.href = window.location.href;
+        }
+    }
+}
+</script>
+</body>
+</html>
